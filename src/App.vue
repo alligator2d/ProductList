@@ -6,7 +6,6 @@
 			dark
 		>
 			<div class="d-flex align-center">
-				
 				<v-icon>mdi-camera</v-icon>
 				<h3 class="white--text ma-3">
 					Product List
@@ -16,48 +15,52 @@
 		</v-app-bar>
 		
 		<v-main>
-			<aside class="aside">
-				<div class="aside-title"><strong>Добавление товара</strong>
-				</div>
-				<v-form @submit.prevent>
-					
-					<v-text-field
-						:rules="rules"
-						
-						v-model="product.title"
-						label="Введите наименование товара"
-						required
-					></v-text-field>
-					<!--					<p>Описание товара</p>-->
-					<v-textarea
-						v-model="product.descr"
-						label="Введите описание товара"
-					></v-textarea>
-					<!--					<p>Ссылка на изображение<span class="red&#45;&#45;text">*</span></p>-->
-					<v-text-field
-						:rules="rules"
-						v-model="product.img"
-						label="Введите ссылку на изображение"
-						required
-					>
-					</v-text-field>
-					<!--					<p>Цена товара<span class="red&#45;&#45;text">*</span></p>-->
-					<v-text-field
-						:rules="rules"
-						v-model="product.price"
-						label="Введите цену товара"
-						required
-					>
-					</v-text-field>
-					<v-btn type="submit"
-						   :rules="rules"
-						   @click="addProduct" 
-						   class="d-flex ma-auto mt-2" 
-						   rounded>Добавить товар
-					</v-btn>
-				
-				</v-form>
-			</aside>
+			<!--			<aside class="aside">-->
+			<!--				<div class="aside-title"><strong>Добавление товара</strong>-->
+			<!--				</div>-->
+			<!--				<v-form @submit.prevent>-->
+			<!--					-->
+			<!--					<v-text-field-->
+			<!--						:rules="rules"-->
+			<!--						-->
+			<!--						v-model="product.title"-->
+			<!--						label="Введите наименование товара"-->
+			<!--						required-->
+			<!--					></v-text-field>-->
+			<!--					&lt;!&ndash;					<p>Описание товара</p>&ndash;&gt;-->
+			<!--					<v-textarea-->
+			<!--						v-model="product.descr"-->
+			<!--						label="Введите описание товара"-->
+			<!--					></v-textarea>-->
+			<!--					&lt;!&ndash;					<p>Ссылка на изображение<span class="red&#45;&#45;text">*</span></p>&ndash;&gt;-->
+			<!--					<v-text-field-->
+			<!--						:rules="rules"-->
+			<!--						v-model="product.img"-->
+			<!--						label="Введите ссылку на изображение"-->
+			<!--						required-->
+			<!--					>-->
+			<!--					</v-text-field>-->
+			<!--					&lt;!&ndash;					<p>Цена товара<span class="red&#45;&#45;text">*</span></p>&ndash;&gt;-->
+			<!--					<v-text-field-->
+			<!--						:rules="rules"-->
+			<!--						v-model="product.price"-->
+			<!--						label="Введите цену товара"-->
+			<!--						required-->
+			<!--					>-->
+			<!--					</v-text-field>-->
+			<!--					<v-btn type="submit"-->
+			<!--						   :rules="rules"-->
+			<!--						   @click="addProduct" -->
+			<!--						   class="d-flex ma-auto mt-2" -->
+			<!--						   rounded>Добавить товар-->
+			<!--					</v-btn>-->
+			<!--				-->
+			<!--				</v-form>-->
+			<!--			</aside>-->
+			<Aside :product="product"
+				   @add="addProduct"
+			></Aside>
+			
 			<div class="container ">
 				<div class="photo-items" v-for="product in products" :key="product.id">
 					<div class="item">
@@ -88,10 +91,12 @@
 
 <script>
 
+import Aside from "@/components/Aside.vue";
+
 export default {
 	name: "App",
 	
-	components: {},
+	components: { Aside },
 	
 	data() {
 		return {
@@ -101,13 +106,6 @@ export default {
 				img: "",
 				price: ""
 			},
-			rules: [
-				value => {
-					if(value) return true;
-					
-					return "You must enter a product info.";
-				}
-			],
 			products:
 				[
 					{
@@ -157,23 +155,31 @@ export default {
 		};
 	},
 	methods: {
-		addProduct() {
-			if(this.product.title !== "" && this.product.img !== "" && this.product.price !== "") {
-				console.log(this.product);
-				this.products.push(this.product);
-			} else {
-				console.log("error");
-			}
+		addProduct(product) {
+			console.log(product);
+			this.products.push(product)
+			// if(this.product.title !== "" && this.product.img !== "" && this.product.price !== "") {
+			// 	console.log(this.product);
+			// 	this.products.push(this.product);
+			// } else {
+			// 	console.log("error");
+			// }
 			
-			this.product.title = "";
-			this.product.descr = "";
-			this.product.img = "";
-			this.product.price = "";
+			this.product = {
+				title: '',
+				descr: '',
+				img: '',
+				price: '',
+			}
 		},
 		removeProduct(id) {
 			console.log("delete");
 			this.products = this.products.filter(i => i.id !== id);
+		},
+		resetForm() {
+			
 		}
+		
 		
 	}
 };
