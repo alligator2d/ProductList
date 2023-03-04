@@ -57,9 +57,9 @@
 			<!--				-->
 			<!--				</v-form>-->
 			<!--			</aside>-->
-			<Aside :product="product"
+			<productForm :product="product"
 				   @add="addProduct"
-			></Aside>
+			></productForm>
 			
 			<div class="container ">
 				<div class="photo-items" v-for="product in products" :key="product.id">
@@ -91,12 +91,12 @@
 
 <script>
 
-import Aside from "@/components/Aside.vue";
+import productForm from "@/components/productForm.vue";
 
 export default {
 	name: "App",
 	
-	components: { Aside },
+	components: { productForm },
 	
 	data() {
 		return {
@@ -165,12 +165,13 @@ export default {
 			// 	console.log("error");
 			// }
 			
-			this.product = {
-				title: '',
-				descr: '',
-				img: '',
-				price: '',
-			}
+			// this.product = {
+			// 	title: '',
+			// 	descr: '',
+			// 	img: '',
+			// 	price: '',
+			// }
+			
 		},
 		removeProduct(id) {
 			console.log("delete");
@@ -181,7 +182,13 @@ export default {
 		}
 		
 		
-	}
+	},
+	watch: {
+		
+	},
+	computed: {
+		
+	},
 };
 </script>
 <style lang="scss">
@@ -235,7 +242,7 @@ export default {
 
 .aside-title {
   margin-bottom: 10px;
-  font-size: 18px;
+  font-size: 22px;
 }
 
 .photo-items {
