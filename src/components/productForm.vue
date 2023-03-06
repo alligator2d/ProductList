@@ -6,9 +6,7 @@
 				@submit.prevent
 				ref="form"
 				v-model="valid">
-			
 			<p>Наименование товара<span class="red--text">*</span></p>
-			
 			<v-text-field
 				required
 				:rules="nameRules"
@@ -59,7 +57,6 @@ export default {
 			type: Object,
 			required: true
 		},
-		
 	},
 name: "Aside",
 	data() {
@@ -87,9 +84,6 @@ name: "Aside",
 				console.log("error");
 			}
 			this.$refs.form.validate()
-			
-			
-			
 		},
 		resetValidation () {
 			this.$refs.form.reset()

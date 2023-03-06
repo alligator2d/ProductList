@@ -15,54 +15,13 @@
 		</v-app-bar>
 		
 		<v-main>
-			<!--			<aside class="aside">-->
-			<!--				<div class="aside-title"><strong>Добавление товара</strong>-->
-			<!--				</div>-->
-			<!--				<v-form @submit.prevent>-->
-			<!--					-->
-			<!--					<v-text-field-->
-			<!--						:rules="rules"-->
-			<!--						-->
-			<!--						v-model="product.title"-->
-			<!--						label="Введите наименование товара"-->
-			<!--						required-->
-			<!--					></v-text-field>-->
-			<!--					&lt;!&ndash;					<p>Описание товара</p>&ndash;&gt;-->
-			<!--					<v-textarea-->
-			<!--						v-model="product.descr"-->
-			<!--						label="Введите описание товара"-->
-			<!--					></v-textarea>-->
-			<!--					&lt;!&ndash;					<p>Ссылка на изображение<span class="red&#45;&#45;text">*</span></p>&ndash;&gt;-->
-			<!--					<v-text-field-->
-			<!--						:rules="rules"-->
-			<!--						v-model="product.img"-->
-			<!--						label="Введите ссылку на изображение"-->
-			<!--						required-->
-			<!--					>-->
-			<!--					</v-text-field>-->
-			<!--					&lt;!&ndash;					<p>Цена товара<span class="red&#45;&#45;text">*</span></p>&ndash;&gt;-->
-			<!--					<v-text-field-->
-			<!--						:rules="rules"-->
-			<!--						v-model="product.price"-->
-			<!--						label="Введите цену товара"-->
-			<!--						required-->
-			<!--					>-->
-			<!--					</v-text-field>-->
-			<!--					<v-btn type="submit"-->
-			<!--						   :rules="rules"-->
-			<!--						   @click="addProduct" -->
-			<!--						   class="d-flex ma-auto mt-2" -->
-			<!--						   rounded>Добавить товар-->
-			<!--					</v-btn>-->
-			<!--				-->
-			<!--				</v-form>-->
-			<!--			</aside>-->
+			
 			<productForm :product="product"
 				   @add="addProduct"
 			></productForm>
 			
-			<div class="container ">
-				<div class="photo-items" v-for="product in products" :key="product.id">
+			<v-container class="container ">
+				<v-row cols="1" class="photo-items" v-for="product in products" :key="product.id">
 					<div class="item">
 						<img :src="product.img" :alt="product.title">
 						<div class="item-title">
@@ -83,8 +42,8 @@
 							</v-btn>
 						</div>
 					</div>
-				</div>
-			</div>
+				</v-row>
+			</v-container>
 		</v-main>
 	</v-app>
 </template>
@@ -92,10 +51,10 @@
 <script>
 
 import productForm from "@/components/productForm.vue";
+import { mapState } from "vuex";
 
 export default {
 	name: "App",
-	
 	components: { productForm },
 	
 	data() {
@@ -106,89 +65,27 @@ export default {
 				img: "",
 				price: ""
 			},
-			products:
-				[
-					{
-						id: 1,
-						img: require("./assets/img/Rectangle31.png"),
-						title: "Наименование товара",
-						descr: "Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в несколько строк.",
-						price: "10 000 руб."
-					},
-					{
-						id: 2,
-						img: require("./assets/img/Rectangle31.png"),
-						title: "Наименование товара",
-						descr: "Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в несколько строк.",
-						price: "10 000 руб."
-					},
-					{
-						id: 3,
-						img: require("./assets/img/Rectangle31.png"),
-						title: "Наименование товара",
-						descr: "Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в несколько строк.",
-						price: "10 000 руб."
-					},
-					{
-						id: 4,
-						img: require("./assets/img/Rectangle31.png"),
-						title: "Наименование товара",
-						descr: "Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в несколько строк.",
-						price: "10 000 руб."
-					},
-					{
-						id: 5,
-						img: require("./assets/img/Rectangle31.png"),
-						title: "Наименование товара",
-						descr: "Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в несколько строк.",
-						price: "10 000 руб."
-					},
-					{
-						id: 6,
-						img: require("./assets/img/Rectangle31.png"),
-						title: "Наименование товара",
-						descr: "Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в несколько строк.",
-						price: "10 000 руб."
-					}
-				
-				]
 		};
 	},
 	methods: {
 		addProduct(product) {
 			console.log(product);
-			this.products.push(product)
-			// if(this.product.title !== "" && this.product.img !== "" && this.product.price !== "") {
-			// 	console.log(this.product);
-			// 	this.products.push(this.product);
-			// } else {
-			// 	console.log("error");
-			// }
+			this.$store.commit('addProduct', product)
 			
-			// this.product = {
-			// 	title: '',
-			// 	descr: '',
-			// 	img: '',
-			// 	price: '',
-			// }
 			
 		},
 		removeProduct(id) {
 			console.log("delete");
-			this.products = this.products.filter(i => i.id !== id);
+			// this.products = this.products.filter(i => i.id !== id);
+			this.$store.commit('removeProduct', id)
 		},
-		resetForm() {
-			
+		increment() {
+			this.$store.commit('increment')
 		}
-		
-		
 	},
-	watch: {
-		
-	},
-	computed: {
-		
-	},
+	computed: mapState([
+		'products', 'count'
+	])
 };
 </script>
 <style lang="scss">
